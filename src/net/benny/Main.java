@@ -57,7 +57,7 @@ public class Main {
             case 2: System.out.println("Good enough"); break;
             case 1: System.out.println("meh"); break;
             case 0: System.out.println("sussy baka"); break;
-            default: System.out.println("Congrats! You broke the code!"); break;
+            default: System.out.println("Congrats! You broke the code!!"); break;
         }
 
     }
