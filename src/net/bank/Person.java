@@ -9,11 +9,13 @@ public class Person {
 
     private String clientID;
 
-    public Person(String name, String surname, String middleName, int age) {
+
+    public Person(String name, String surname, String middleName, int age, String clientID) {
         this.name = name;
         this.surname = surname;
         this.middleName = middleName;
         this.age = age;
+        this.clientID = clientID;
     }
 
     public String getFullName()

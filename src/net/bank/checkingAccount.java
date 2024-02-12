@@ -1,19 +1,17 @@
 package net.bank;
 
-import java.util.Objects;
-
 public class checkingAccount {
     private double currentBalance;
     private final String accountNo;
-    private final Person accountOwner;
+    private final String accountOwnerID;
 
-    public checkingAccount(double currentBalance, String accountNo, Person accountOwner) {
+    public checkingAccount(double currentBalance, String accountNo, String accountOwnerID) {
         this.currentBalance = currentBalance;
         this.accountNo = accountNo;
-        this.accountOwner = accountOwner;
+        this.accountOwnerID = accountOwnerID;
     }
 
-    private void increaseBalance(double amount)
+    protected void increaseBalance(double amount)
     {
         if (amount>=0){
             currentBalance+=amount;
@@ -22,7 +20,7 @@ public class checkingAccount {
             System.out.println("increaseBalance method only accepts positive values!");
         }
     }
-    private void decreaseBalance(double amount){
+    protected void decreaseBalance(double amount){
         if (amount<0){
             currentBalance+=amount;
         }
@@ -39,12 +37,8 @@ public class checkingAccount {
         return accountNo;
     }
 
-    public boolean checkAccountNo(String accountNoToCheck){
-        return accountNoToCheck.equals(accountNo);
-    }
-
     public boolean checkUserID(String UIDToCheck)
     {
-        return UIDToCheck.equals(accountOwner.getClientID());
+        return UIDToCheck.equals(accountOwnerID);
     }
 }
