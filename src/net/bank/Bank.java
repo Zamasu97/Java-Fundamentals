@@ -18,7 +18,7 @@ public class Bank {
     }
 
     public List<checkingAccount> getClientAccounts(Person person){
-        List<checkingAccount> currentClientAccounts = new ArrayList<checkingAccount>();
+        List<checkingAccount> currentClientAccounts = new ArrayList<>();
         for(checkingAccount account: accountList ){
             if(account.checkUserID(person.getClientID())) {
                 currentClientAccounts.add(account);
@@ -27,9 +27,13 @@ public class Bank {
         return currentClientAccounts;
     }
 
-    public checkingAccount getCurrentClientAccount(Person person, String currentAccountNo)
+    public List<Person> getAllClients(){
+        return clients;
+    }
+
+    public checkingAccount getCurrentClientAccount(String clientID, String currentAccountNo)
     {
-        List<checkingAccount> clientAccounts = getClientAccounts(person);
+        List<checkingAccount> clientAccounts = getClientAccounts(getClientByID(clientID));
         for (checkingAccount acc : clientAccounts)
         {
             if (acc.getAccountNo().equals(currentAccountNo))
@@ -41,15 +45,15 @@ public class Bank {
     }
 
     protected void createClient(String name, String middleName, String surname, int age){
-        if(!checkIfClientExists(name,middleName,surname,age)){
+        if(getClient(name,middleName,surname,age) == null){
             clients.add(new Person(name, surname, middleName, age, generateClientID(name, middleName, surname)));
+            System.out.println("Client created");
         }
     }
 
     private String generateClientID(String name, String middleName, String surname) {
         int uniqueClientID = new Random().nextInt(999999999);
-        String clientID = name.charAt(0) + "" + middleName.charAt(0) + "" + surname.charAt(0) + "" + uniqueClientID;
-        return clientID;
+        return name.charAt(0) + "" + middleName.charAt(0) + surname.charAt(0) + uniqueClientID;
     }
 
     private String generateAccountNo(Person person){
@@ -57,28 +61,22 @@ public class Bank {
         return person.getClientID()+"-"+uniqueAccountID;
     }
 
-    //refactor this to getClientByName
-    private Boolean checkIfClientExists(String name, String middleName, String surname, int age){
-        for(Person client : clients){
-            if (clients.isEmpty())
-            {
-                return false;
-            }
-            else if(client.getAge()==age && client.getFullName().equals(name + " " + middleName + " " + surname)){
-                return true;
-            }
-        }
-        return true;
-    }
 
     protected void openAccount(Person person, double initialDepositAmount){
-        if (initialDepositAmount>=minimumOpenAmount){
+        if (initialDepositAmount>=minimumOpenAmount && person != null){
             accountList.add(new checkingAccount(initialDepositAmount,generateAccountNo(person),person.getClientID()));
+        }
+        else if (person == null){
+            System.out.println("Couldn't find person in db");
+        }
+        else{
+            System.out.println("Not enough initial deposit");
         }
     }
 
-    protected void withdrawMoney(Person person, String accNo, double amount){
-        checkingAccount account = getCurrentClientAccount(person,accNo);
+    //refactor these 2 to not use CID but get CID from AccNo
+    protected void withdrawMoney(String clientID, String accNo, double amount){
+        checkingAccount account = getCurrentClientAccount(clientID,accNo);
         if (account.getCurrentBalance() - amount <= -withdrawLimit){
             System.out.println("Can't withdraw over limit");
         }
@@ -87,11 +85,31 @@ public class Bank {
         }
     }
 
-    protected void depositMoney(Person person, String accNo, double amount){
-        checkingAccount account = getCurrentClientAccount(person,accNo);
+    protected void depositMoney(String clientID, String accNo, double amount){
+        checkingAccount account = getCurrentClientAccount(clientID,accNo);
         account.increaseBalance(amount);
     }
-    protected Person getClientByName(String name, String middleName, String surname){
+    protected Person getClient(String name, String middleName, String surname, int age){
+        for (Person client : clients)
+        {
+            if(client.getAge()==age && client.getFullName().equals(name + " " + middleName + " " + surname)){
+                return  client;
+            }
+        }
+        return null;
+    }
 
+    protected Person getClientByID(String clientID){
+        for (Person client : clients)
+        {
+            if(client.getClientID().equals(clientID)){
+                return  client;
+            }
+        }
+        return null;
+    }
+
+    protected String getBankName(){
+        return bankName;
     }
 }

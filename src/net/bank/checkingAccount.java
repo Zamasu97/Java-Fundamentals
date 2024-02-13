@@ -13,20 +13,11 @@ public class checkingAccount {
 
     protected void increaseBalance(double amount)
     {
-        if (amount>=0){
-            currentBalance+=amount;
-        }
-        else {
-            System.out.println("increaseBalance method only accepts positive values!");
-        }
+        currentBalance+=Math.abs(amount);
     }
-    protected void decreaseBalance(double amount){
-        if (amount<0){
-            currentBalance+=amount;
-        }
-        else {
-            System.out.println("decreaseBalance method only accepts negative values!");
-        }
+    protected void decreaseBalance(double amount)
+    {
+        currentBalance-=Math.abs(amount);
     }
 
     public double getCurrentBalance(){
@@ -40,5 +31,9 @@ public class checkingAccount {
     public boolean checkUserID(String UIDToCheck)
     {
         return UIDToCheck.equals(accountOwnerID);
+    }
+
+    public void printAccountFullDetails(){
+        System.out.println("Owner: " + accountOwnerID + ". Account number: " + accountNo + ". Current balance: " + currentBalance);
     }
 }

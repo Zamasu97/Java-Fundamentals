@@ -4,8 +4,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        testObject obj1 = new testObject("test", 22, false);
-        obj1.method();
-        System.out.println(obj1.getClass());
+        Scanner scanner = new Scanner(System.in);
+        double var = scanner.nextDouble();
+        //((Object) var).getClass().getName();
+        System.out.println(((Object) var).getClass().getName());
     }
 }

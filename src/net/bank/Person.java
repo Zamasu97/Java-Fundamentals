@@ -7,7 +7,7 @@ public class Person {
     private final String middleName;
     private final int age;
 
-    private String clientID;
+    private final String clientID;
 
 
     public Person(String name, String surname, String middleName, int age, String clientID) {
@@ -26,16 +26,8 @@ public class Person {
     {
         return age;
     }
-
-    public String getName(){
-        return name;
-    }
-
-    public String getSurname(){
-        return surname;
-    }
-
     public String getClientID(){
         return clientID;
     }
+
 }
